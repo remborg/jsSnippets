@@ -11,6 +11,16 @@ removeClass = function (element, className) {
         element.className = trim((" " + element.className + " ").replace(" " + className + " ", ""));
     }
 },
+toggleClass = function (element, className) {
+    if(hasClass(element, className))
+    {
+        removeClass(element, className);
+    }
+    else
+    {
+        addClass(element, className);
+    }
+},
 trim = function (str) {
     return str.replace(/^\s+|\s+$/g, '');
 },
@@ -46,4 +56,9 @@ getScrollXY = function() {
         pos.Y = document.body.scrollTop || document.documentElement.scrollTop;
     }
     return pos;
+},
+repaintElement = function(element) {
+    element.style.display = 'none';
+    element.offsetHeight;
+    element.style.display = '';
 };
