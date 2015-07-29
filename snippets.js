@@ -46,6 +46,36 @@ throttle = function(limit, callback) {
         }
     };
 },
+throttle2 = function(func, wait, leading, trailing) {
+    var result;
+    var timeout = null;
+    var previous = 0;
+
+    return function() {
+        var now = new Date();
+
+        if (!previous && !leading) {
+            previous = now;
+        }
+
+        var remaining = wait - (now - previous);
+
+        if (remaining <= 0) {
+            clearTimeout(timeout);
+            timeout = null;
+            previous = now;
+            result = func.call();
+        } else if (!timeout && trailing) {
+            timeout = setTimeout( function () {
+                            previous = new Date();
+                            timeout = null;
+                            result = func.call();
+                        }, remaining);
+        }
+
+        return result;
+    };
+},
 getScrollXY = function() {
     var pos = {'X':undefined, 'Y':undefined};
     if( typeof( window.pageYOffset ) === 'number'){
